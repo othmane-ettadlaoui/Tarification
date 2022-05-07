@@ -49,7 +49,7 @@ ks.test(SumSINAPS,X)
 #> 	Two-sample Kolmogorov-Smirnov test
 #> 
 #> data:  SumSINAPS and X
-#> D = 0.059197, p-value < 2.2e-16
+#> D = 0.061808, p-value < 2.2e-16
 #> alternative hypothesis: two-sided
 ```
 La $p$-$value$ est inférieure à $0.5$ donc on rejette l'hypothèse $H_0$ selon laquelle la somme des sinistres suit une loi de poisson.
@@ -61,7 +61,7 @@ On peut tester graphiquement si une variable suit une loi normale avec la foncti
 qqnorm(SumSINAPS)
 ```
 
-<img src="01-intro_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+![](01-intro_files/figure-latex/unnamed-chunk-6-1.pdf)<!-- --> 
 
 Il est très difficile de conclure à partir d’un graphe qqnorm si une variable pourrait effectivement suivre une loi normale. D’ailleur c’est pourquoi il est préférable d’utiliser le test de normalité de Carlos Jarque et Anil K. Bera appelé Jarque–Bera test. Sur R, ce test peut être effectué avec la fonction `jarque.bera.test()` disponible dans le package `tseries`.
 $\begin{cases}

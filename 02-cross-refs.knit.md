@@ -1,17 +1,10 @@
 # Représentations graphiques
-```{r,echo=FALSE ,message=FALSE, warning=FALSE, r,echo=FALSE}
-library(haven)
-library(dplyr)
-database <- read_sas("Data/base5.sas7bdat", 
-    NULL)
-database$SumSINAPS <- database %>% select(starts_with("SINAP")) %>% 
-  apply(., 1, sum)
-SumSINAPS <- database$SumSINAPS
-```
+
 Dans cette partie du projet, nous allons effectuer un ensemble de représentations graphiques afin de savoir l’impact des variables sur les sinistres.\
 Ce graphe suivant indique la fréquence des sinistre en fonction des differentes variables : sexe, zone, catégorie socio-professionnelle, age, usage du véhicule et statut matrimonial.
 
-```{r}
+
+```r
 library(dplyr)
 library(ggplot2)
 B1 = database %>% select(SEXE = SEX,STATUT,ZONE,CSP,USAGE,AGECOND) #selection des variables.
@@ -40,12 +33,6 @@ plot_(B1,SumSINAPS) # Execution de la fonction precedente
 
 
 
-```{r}
-library(patchwork)
-(figSEXE|figUSAGE)/figAGECOND
-```
-```{r}
-(figSTATUT|figZONE)/figCSP
-```
+
 
 

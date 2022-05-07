@@ -39,7 +39,7 @@ ks.test(SumSINAPS,X)
 ```
 La $p$-$value$ est inférieure à $0.5$ donc on rejette l'hypothèse $H_0$ selon laquelle la somme des sinistres suit une loi de poisson.
 
-#### Loi de Loi normale
+#### Loi normale
 On peut tester graphiquement si une variable suit une loi normale avec la fonction `qqnorm`. Si le nuage de point s’apparente à une droite alors la variable pourrait suivre une loi normale sinon on rejette cette hypothèse.
 ```{r}
 qqnorm(SumSINAPS)

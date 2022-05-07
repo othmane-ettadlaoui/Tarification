@@ -1,58 +1,50 @@
-# Cross-references {#cross}
+# Représentations graphiques
 
-Cross-references make it easier for your readers to find and link to elements in your book.
-
-## Chapters and sub-chapters
-
-There are two steps to cross-reference any heading:
-
-1. Label the heading: `# Hello world {#nice-label}`. 
-    - Leave the label off if you like the automated heading generated based on your heading title: for example, `# Hello world` = `# Hello world {#hello-world}`.
-    - To label an un-numbered heading, use: `# Hello world {-#nice-label}` or `{# Hello world .unnumbered}`.
-
-1. Next, reference the labeled heading anywhere in the text using `\@ref(nice-label)`; for example, please see Chapter \@ref(cross). 
-    - If you prefer text as the link instead of a numbered reference use: [any text you want can go here](#cross).
-
-## Captioned figures and tables
-
-Figures and tables *with captions* can also be cross-referenced from elsewhere in your book using `\@ref(fig:chunk-label)` and `\@ref(tab:chunk-label)`, respectively.
-
-See Figure \@ref(fig:nice-fig).
+Dans cette partie du projet, nous allons effectuer un ensemble de représentations graphiques afin de savoir l’impact des variables sur les sinistres.\
+Ce graphe suivant indique la fréquence des sinistre en fonction des differentes variables : sexe, zone, catégorie socio-professionnelle, age, usage du véhicule et statut matrimonial.
 
 
 ```r
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
-```
+library(dplyr)
+library(ggplot2)
+B1 = database %>% select(SEXE = SEX,STATUT,ZONE,CSP,USAGE,AGECOND) #selection des variables.
+plot_ <- function(df, N){
+  name = names(df)
+  for (i in name){
+    df0 <-  data.frame(df[[i]],N) # Creation d'une df(Variables,N)
+    colnames(df0) <- c(i,'N')
+    s <- df0 %>% group_by(colonne = df0[[i]]) %>% 
+      summarise(total = sum(N)) # Creation d'une df(groupe de Variables, Total)
+    
+    # debut du code pour la figure
+    figure <- ggplot(data = s, aes(x = colonne, y = total/sum(total))) +
+      geom_col() + 
+      xlab(i) +  # Ajout du label de x
+      ylab(paste0("Frequence ",i)) + # Ajout du label de y
+      hrbrthemes::theme_ipsum(grid = "Y") # Ajout d'un theme pour la figure
+    # fin du code pour la figure
+    
+    assign(paste0("fig",i),figure,.GlobalEnv) #assigantion de la figure i 
+  }
+}
 
-<div class="figure" style="text-align: center">
-<img src="02-cross-refs_files/figure-epub3/nice-fig-1.png" alt="Plot with connected points showing that vapor pressure of mercury increases exponentially as temperature increases." width="80%" />
-<p class="caption">(\#fig:nice-fig)Here is a nice figure!</p>
-</div>
-
-Don't miss Table \@ref(tab:nice-tab).
-
-
-```r
-knitr::kable(
-  head(pressure, 10), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
+plot_(B1,SumSINAPS) # Execution de la fonction precedente
 ```
 
 
 
-Table: (\#tab:nice-tab)Here is a nice table!
 
-| temperature| pressure|
-|-----------:|--------:|
-|           0|   0.0002|
-|          20|   0.0012|
-|          40|   0.0060|
-|          60|   0.0300|
-|          80|   0.0900|
-|         100|   0.2700|
-|         120|   0.7500|
-|         140|   1.8500|
-|         160|   4.2000|
-|         180|   8.8000|
+```r
+library(patchwork)
+(figSEXE|figUSAGE)/figAGECOND
+```
+
+<img src="02-cross-refs_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+
+```r
+(figSTATUT|figZONE)/figCSP
+```
+
+<img src="02-cross-refs_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+
+
